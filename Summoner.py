@@ -7,7 +7,11 @@ from pymongo import *
 from util_method import *
 
 import os
-client = MongoClient('mongodb:%s:%s/' % (os.environ['OPENSHIFT_MONGODB_DB_HOST'], os.environ['OPENSHIFT_MONGODB_DB_PORT))
+client = MongoClient('mongodb:%s:%s/' % (os.environ['OPENSHIFT_MONGODB_DB_HOST'], os.environ['OPENSHIFT_MONGODB_DB_PORT'))
+user = os.getenv("OPENSHIFT_MONGODB_DB_USERNAME")
+passwd = os.getenv("OPENSHIFT_MONGODB_DB_PASSWORD")
+
+client.lol.authenticate(user,passwd)
 
 class Summoner:
     def __init__(self, name):
