@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+    <head>
+        <title>{{ username }} - UCCU</title>
+    </head>
+    <body>
+        <h1>Hello {{ username }}</h1>
+	{% if games %}        
+	<ul>
+            {% for game in games %}
+            <li>{{ game }}</li>
+            {% endfor %}
+        </ul>
+	{% endif %}
+    </body>
+</html>
+
