@@ -6,7 +6,8 @@ from pymongo import *
 
 from util_method import *
 
-client = MongoClient()
+import os
+client = MongoClient(mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/)
 
 class Summoner:
     def __init__(self, name):
@@ -64,12 +65,8 @@ class Summoner:
 
 def main():
     summoners = [
-                    '你根本在發廢文',
                     'Salas',
                     'Aragorn',
-                    '嵐辰星月夜',
-                    '性侵大使',
-                    '人品爆發揪咪030',
                 ]
     for name in summoners:
         print(name)
