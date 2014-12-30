@@ -64,8 +64,12 @@ class Summoner:
 
 def main():
     summoners = [
+                    '你根本在發廢文',
                     'Salas',
                     'Aragorn',
+                    '嵐辰星月夜',
+                    '性侵大使',
+                    '人品爆發揪咪030',
                 ]
     for name in summoners:
         print(name)
