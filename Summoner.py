@@ -6,7 +6,7 @@ from pymongo import *
 
 from util_method import *
 
-client = MongoClient()
+client = MongoClient(mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/)
 
 class Summoner:
     def __init__(self, name):
