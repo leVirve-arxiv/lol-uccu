@@ -15,7 +15,7 @@ client.lol.authenticate(user,passwd)
 
 class Summoner:
     def __init__(self, name):
-        self.games = .games
+        self.games = client.lol.games
         
         self.summoner_name = name
         self.id = self.getid()
