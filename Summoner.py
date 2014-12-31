@@ -33,7 +33,7 @@ class Summoner:
             self.json_data = json.loads(result[0])
             self.get_recent_times()
             self.data += [ e for e in self.new_data if e not in self.data ]
-            self.data = set( sorted(self.data) )
+            self.data = sorted(set(self.data))
             self.dump()
         except Exception as e:
             raise e
