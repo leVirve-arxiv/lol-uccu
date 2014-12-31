@@ -36,7 +36,7 @@ class Summoner:
             self.data = sorted(set(self.data))
             self.dump()
         except Exception as e:
-            raise e
+            print(e)
         return self.data
 
     def get_recent_times(self):
