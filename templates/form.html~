@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf8">
+    </head>
+    <body>
+        <form method="post" action="">
+            <label for="query_name">Leage of Legend Id: </label>    
+            <input type="text" name="query_name">
+        </form>
+        <ul>
+        <a href="summoner/你根本在發廢文">你根本在發廢文</a>
+        <a href="summoner/嵐辰星月夜">嵐辰星月夜</a>
+        <a href="summoner/性侵大使">性侵大使</a>
+        <a href="summoner/人品爆發揪咪030">人品爆發揪咪030</a>
+        <a href="summoner/戰神露特娜">戰神露特娜</a>
+        <a href="summoner/Aragorn">Aragorn</a>
+        <a href="summoner/HappyStorm">HappyStrom</a>
+        <a href="summoner/"></a>
+        </ul>
+    </body>
+</html>
