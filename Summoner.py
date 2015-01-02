@@ -6,19 +6,19 @@ from pymongo import *
 
 from util_method import *
 
-import os
-client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])
+client = MongoClient()
 
 class Summoner:
     def __init__(self, name):
         self.games = client.lol.games
         
         self.summoner_name = name
-        self.id = self.get_id()
-        self.timedates = self.load()
+        self.id = self.getid()
+        self.data = self.load()
+        self.new_data_raw = []
         self.tzinfo = TaipeiTimeZone()
 
-    def get_id(self):
+    def getid(self):
         url = 'http://lol.moa.tw/summoner/show/' + self.summoner_name
         response = requests.get(url)
         id_obj = re.findall(r'MoaObj.lol.acctId = (.+);', response.text)
@@ -26,50 +26,51 @@ class Summoner:
 
     def get_recent_games(self):
         try:
-            if not self.id:
-                pass # raise NotFound
             url = 'http://lol.moa.tw/Ajax/bs_recentgames/' + self.id + '/' + self.summoner_name
             response = requests.get(url)
             result = re.findall(r'var recentgames=(.+);', response.text)
             self.json_data = json.loads(result[0])
-
-            self.timedates += self.get_recent_times()
-            self.timedates = sorted(self.timedates)
+            self.get_recent_times()
+            self.data += [ e for e in self.new_data if e not in self.data ]
+            self.data = set( sorted(self.data) )
             self.dump()
         except Exception as e:
-            print(e)
-        return self.timedates
+            raise e
+        return self.data
 
     def get_recent_times(self):
-        return [ local_datetime(game['createDate'], self.tzinfo)
+        self.new_data = [ local_datetime(game['createDate'], self.tzinfo)
                 for game in self.json_data['gameStatistics'] ]
 
     def load(self):
-        return {
-                resource['date']
-                for resource in self.games.find(
-                    { "summoner": self.summoner_name }
-            )}
+        return [ r['date']
+                for r in self.games.find({ "summoner": self.summoner_name }) ]
 
     def dump(self):
-        for time in sorted(self.timedates):
+        for time in sorted(self.data):
             game_id = self.games.update(
-                {
-                    "summoner": self.summoner_name,
-                    "date": time },
-                {
-                    "summoner": self.summoner_name,
-                    "date": time
-                }, upsert=True)
+                    {
+                        "summoner": self.summoner_name,
+                        "date": time },
+                    {
+                        "summoner": self.summoner_name,
+                        "date": time
+                    },
+                    upsert=True)
             print(game_id)
 
     def clean_db(self):
         self.games.remove({ "summoner": self.summoner_name })
 
 def main():
-    os.environ['OPENSHIFT_MONGODB_DB_URL'] = ''
-
-    summoners = [ 'Salas', 'Aragorn' ]
+    summoners = [
+                    '你根本在發廢文',
+                    'Salas',
+                    'Aragorn',
+                    '嵐辰星月夜',
+                    '性侵大使',
+                    '人品爆發揪咪030',
+                ]
     for name in summoners:
         print(name)
         summoner = Summoner(name)
