@@ -1,3 +1,4 @@
+#!usr/bin/python3
 from Summoner import *
 
 def main():
