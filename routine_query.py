@@ -2,7 +2,7 @@
 from Summoner import *
 
 def main():
-    names = [""]
+    names = ["你根本在發廢文"]
     for name in names:
         result = Summoner(name).query()
         print(result)

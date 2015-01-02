@@ -1,4 +1,5 @@
 #! /bin/bash
+
 ./../../../routine_query.py
 
 
