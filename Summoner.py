@@ -14,12 +14,11 @@ class Summoner:
         self.games = client.lol.games
         
         self.summoner_name = name
-        self.id = self.getid()
-        self.data = self.load()
-        self.new_data_raw = []
+        self.id = self.get_id()
+        self.timedates = self.load()
         self.tzinfo = TaipeiTimeZone()
 
-    def getid(self):
+    def get_id(self):
         url = 'http://lol.moa.tw/summoner/show/' + self.summoner_name
         response = requests.get(url)
         id_obj = re.findall(r'MoaObj.lol.acctId = (.+);', response.text)
@@ -27,47 +26,50 @@ class Summoner:
 
     def get_recent_games(self):
         try:
+            if not self.id:
+                pass # raise NotFound
             url = 'http://lol.moa.tw/Ajax/bs_recentgames/' + self.id + '/' + self.summoner_name
             response = requests.get(url)
             result = re.findall(r'var recentgames=(.+);', response.text)
             self.json_data = json.loads(result[0])
-            self.get_recent_times()
-            self.data += [ e for e in self.new_data if e not in self.data ]
-            self.data = sorted(set(self.data))
+
+            self.timedates += self.get_recent_times()
+            self.timedates = sorted(self.timedates)
             self.dump()
         except Exception as e:
             print(e)
-        return self.data
+        return self.timedates
 
     def get_recent_times(self):
-        self.new_data = [ local_datetime(game['createDate'], self.tzinfo)
+        return [ local_datetime(game['createDate'], self.tzinfo)
                 for game in self.json_data['gameStatistics'] ]
 
     def load(self):
-        return [ r['date']
-                for r in self.games.find({ "summoner": self.summoner_name }) ]
+        return {
+                resource['date']
+                for resource in self.games.find(
+                    { "summoner": self.summoner_name }
+            )}
 
     def dump(self):
-        for time in sorted(self.data):
+        for time in sorted(self.timedates):
             game_id = self.games.update(
-                    {
-                        "summoner": self.summoner_name,
-                        "date": time },
-                    {
-                        "summoner": self.summoner_name,
-                        "date": time
-                    },
-                    upsert=True)
+                {
+                    "summoner": self.summoner_name,
+                    "date": time },
+                {
+                    "summoner": self.summoner_name,
+                    "date": time
+                }, upsert=True)
             print(game_id)
 
     def clean_db(self):
         self.games.remove({ "summoner": self.summoner_name })
 
 def main():
-    summoners = [
-                    'Salas',
-                    'Aragorn',
-                ]
+    os.environ['OPENSHIFT_MONGODB_DB_URL'] = ''
+
+    summoners = [ 'Salas', 'Aragorn' ]
     for name in summoners:
         print(name)
         summoner = Summoner(name)
