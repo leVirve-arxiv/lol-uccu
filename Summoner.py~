@@ -34,7 +34,7 @@ class Summoner:
             response = requests.get(url)
             result = re.findall(r'var recentgames=(.+);', response.text)
             self.json_data = json.loads(result[0])
-            self.data |= self.get_recent_times()
+            self.data += self.get_recent_times()
             self.data = sorted(self.data)
             self.dump()
         except Exception as e:
