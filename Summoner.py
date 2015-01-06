@@ -38,6 +38,7 @@ class Summoner:
             self.data = sorted(self.data)
             self.dump()
         except Exception as e:
+            print(e)
             raise e
         return self.data
 
