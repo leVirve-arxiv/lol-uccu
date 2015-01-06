@@ -1,6 +1,6 @@
 #! /bin/bash
 
 ls ./../../../
-./../../../routine_query.py
+python3 $OPENSHIFT_REPO_DIR/routine_query.py
 
 
