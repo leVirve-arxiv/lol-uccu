@@ -29,12 +29,22 @@ def tz_object(utc_date, tz):
     strlocaldate = localdate.strftime('%Y/%m/%d %H:%M:%S')
     return strlocaldate, localdate
 
+def today_times(local_dates):
+    count = 0
+    for date in local_dates:
+        if date.date() == datetime.now(TaipeiTimeZone()).date():
+            count += 1
+    return count
+
 def pprint(content):
     import pprint
     pprint.pprint(content)
 
 if __name__ == '__main__':
     t = datetime(2014, 12, 21, 12, 56, 39, 204000)
-    t = '2014-12-29T16:55:14.965Z'
+    t = '2015-1-19T23:55:14.965Z'
     t = local_datetime(t, TaipeiTimeZone())
     print(t)
+    print(datetime.now(TaipeiTimeZone()))
+    c = today_times([t])
+    print(c)

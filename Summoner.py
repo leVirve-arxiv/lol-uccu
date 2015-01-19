@@ -35,11 +35,12 @@ class Summoner:
             self.json_data = json.loads(result[0])
             self.data |= self.get_recent_times()
             self.data = sorted(self.data)
+            self.today_games = today_times(self.data)
             self.dump()
         except Exception as e:
             print(e)
             raise e
-        return self.data
+        return self.id, self.data, self.today_games
 
     def get_recent_times(self):
         return { local_datetime(game['createDate'], self.tzinfo)

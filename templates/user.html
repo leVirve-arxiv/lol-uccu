@@ -1,17 +1,119 @@
 <!doctype html>
 <html>
     <head>
+        <meta charset="utf-8">
         <title>{{ username }} - UCCU</title>
+        <!-- Mobile support -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Twitter Bootstrap -->
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design for Bootstrap -->
+        <link href="{{ url_for('static', filename='css/ripples.min.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='css/material-wfont.min.css') }}" rel="stylesheet">
+
+        <link href="{{ url_for('static', filename='color.css') }}" rel="stylesheet">
+
+        <!-- Dropdown.js -->
+        <link href="http://cdn.rawgit.com/FezVrasta/dropdown.js/master/jquery.dropdown.css" rel="stylesheet">
     </head>
     <body>
-        <h1>Hello {{ username }}</h1>
-	{% if games %}        
-	<ul>
-            {% for game in games %}
-            <li>{{ game }}</li>
-            {% endfor %}
+    <!-- Nav bar for query -->
+    <div class="navbar navbar-primary navbar-material-indigo"">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="javascript:void(0)">lol-UCCU</a>
+    </div>
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+            <li><a href="javascript:void(0)"><i class="mdi-action-home"></i>首頁</a></li>
+            <li class="active"><a href="javascript:void(0)"><i class="mdi-action-search"></i>查詢</a></li>
         </ul>
-	{% endif %}
+        <form class="navbar-form navbar-left" method="post" action="">
+            <input class="form-control _floating-label col-lg-8 empty" placeholder="召喚師ID" type="text" name="query_name">
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="javascript:void(0)">關於本站</a></li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">更多功能<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="javascript:void(0)">註冊</a></li>
+                    <li><a href="javascript:void(0)">登入</a></li>
+                    <li class="divider"></li>
+                    <li><a href="javascript:void(0)">協助開發</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    </div>
+    <!-- user contain -->
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 text-center">
+            <div class="row well">
+                <div class="col-md-6 col-sm-6">
+                    <div class="panel panel-material-indigo">
+			{% if photo %}
+                        <img class="img-responsive img-rounded" src="https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-xfp1/v/t1.0-9/1476648_863664923655368_9153354075974269710_n.jpg?oh=c56befd749ab1335169d05cdf3d6529f&oe=55425FB2&__gda__=1428725801_9ed95c7f7deb1dbfca5e51b001c4a124">
+			{% else %}
+			 <img class="img-responsive img-rounded" src="http://fc09.deviantart.net/fs70/f/2013/319/5/0/prestigious_leblanc_by_fazie69-d6ubczk.png">
+			{% endif %}
+                        <div class="panel-heading">
+                            <i class="mdi-image-timer-auto"></i>
+                            召喚師編號#{{ sid }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <div class="lead">
+                    <h1><strong>{{ username }}</strong></h1>
+                    <span class="label label-default">{% if rank %}哥是銀牌{{ rank }}{% endif %}</span>
+                    </div>
+                    <p class="lead">今天在峽谷拯救了 {{ today_games * 4 }} 位銅學</p>
+                    <p class="lead">Yoooo, Carry 了 {{ today_games }} 場！</p>
+                    <blockquote><p>{% if summoner_saying %}天下皆雷，我獨凱瑞。{{ summoner_saying }}{% endif %}</p><small><cite title="Source Title">{% if summoner_nickname %}廢文哥 {{ summoner_nickname }}{% endif %}</cite></small></blockquote>
+                    <div class="btn-group">
+                        <a href="javascript:void(0)" class="btn btn-success"><i class="mdi-action-thumb-up"></i> 啊不就好棒棒</a>
+                        <a href="javascript:void(0)" class="btn btn-warning"><i class="mdi-action-thumb-down"></i> 不是個好現象</a>
+                    </div>
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar progress-bar-success" style="width: 60%"></div>
+                        <div class="progress-bar progress-bar-warning" style="width: 40%"></div>
+                    </div>
+                </div>
+            </div>
+            <p><i class="mdi-navigation-menu"></i></p>
+            <div class="panel panel-material-indigo">
+                <div class="panel-heading">
+                    <h3 class="panel-title">戰績紀錄</h3>
+                </div>
+                <div class="panel-body">
+                    {% if games %}
+                    <ul class="list-unstyled">
+                        {% for game in games %}
+                            <li>{{ game }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/ripples.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/material.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $.material.init();
+        });
+    </script>
     </body>
 </html>
+
+
 
