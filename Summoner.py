@@ -15,7 +15,6 @@ except KeyError:
 class Summoner:
     def __init__(self, name):
         self.games = client.lol.games
-        
         self.summoner_name = name
         self.id = self.getid()
         self.data = self.load()
