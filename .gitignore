@@ -1,5 +1,8 @@
 
+#venv
 bin/
+Scripts/
+Include/
 *.swp
 
 # Byte-compiled / optimized / DLL files
