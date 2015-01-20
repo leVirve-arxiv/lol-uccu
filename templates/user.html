@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>{{ username }} - UCCU</title>
+        <title>{{ games_data.name }} - UCCU</title>
         <!-- Mobile support -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -57,24 +57,26 @@
                 <div class="col-md-6 col-sm-6">
                     <div class="panel panel-material-indigo">
 			{% if summoner.photo %}
-                        <img class="img-responsive img-rounded" src="https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-xfp1/v/t1.0-9/1476648_863664923655368_9153354075974269710_n.jpg?oh=c56befd749ab1335169d05cdf3d6529f&oe=55425FB2&__gda__=1428725801_9ed95c7f7deb1dbfca5e51b001c4a124">
+                        <img class="img-responsive img-rounded" src="{{ summoner.photo }}">
 			{% else %}
 			 <img class="img-responsive img-rounded" src="http://fc09.deviantart.net/fs70/f/2013/319/5/0/prestigious_leblanc_by_fazie69-d6ubczk.png">
 			{% endif %}
                         <div class="panel-heading">
                             <i class="mdi-image-timer-auto"></i>
-                            召喚師編號#{{ sid }}
+                            召喚師編號#{{ games_data.id }}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6">
                     <div class="lead">
                     <h1><strong>{{ username }}</strong></h1>
-                    <span class="label label-default">{% if rank %}哥是銀牌{{ rank }}{% endif %}</span>
+                    <span class="label label-default">{% if rank %}哥是{{ games_data.rank }}{% endif %}</span>
                     </div>
-                    <p class="lead">今天在峽谷拯救了 {{ today_games * 4 }} 位銅學</p>
-                    <p class="lead">Yoooo, Carry 了 {{ today_games }} 場！</p>
-                    <blockquote><p>{% if summoner.saying %}{{ summoner.saying }}{% endif %}</p><small><cite title="Source Title">{% if summoner.nickname %}{{ summoner.nickname }}{% endif %}</cite></small></blockquote>
+                    <p class="lead">今天在峽谷拯救了 {{ games_data.today_games * 4 }} 位銅學</p>
+                    <p class="lead">Yoooo, Carry 了 {{ games_data.today_games }} 場！</p>
+                    {% if summoner.saying %}
+                    <blockquote><p>{{ summoner.saying }}</p><small><cite title="Source Title">{{ summoner.nickname }}</cite></small></blockquote>
+                    {% endif %}
                     <div class="btn-group">
                         <a href="javascript:void(0)" class="btn btn-success"><i class="mdi-action-thumb-up"></i> 啊不就好棒棒</a>
                         <a href="javascript:void(0)" class="btn btn-warning"><i class="mdi-action-thumb-down"></i> 不是個好現象</a>
@@ -91,9 +93,9 @@
                     <h3 class="panel-title">戰績紀錄</h3>
                 </div>
                 <div class="panel-body">
-                    {% if games %}
+                    {% if games_data.games %}
                     <ul class="list-unstyled">
-                        {% for game in games %}
+                        {% for game in games_data.games %}
                             <li>{{ game }}</li>
                         {% endfor %}
                     </ul>
@@ -114,6 +116,3 @@
     </script>
     </body>
 </html>
-
-
-
