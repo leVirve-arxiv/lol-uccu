@@ -35,8 +35,9 @@ def page_not_found(error):
 def query(name):
     s = Summoner(name)
     sid, games, tgames = s.get_recent_games()
+    summoner_data = s.get_summoner_info()
     return render_template('user.html',
-            username=name, sid=sid, today_games=tgames, games=games)
+            username=name, sid=sid, today_games=tgames, games=games, summoner=summoner_data)
 
 def main():
     app.run(debug=True)

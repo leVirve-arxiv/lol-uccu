@@ -56,7 +56,7 @@
             <div class="row well">
                 <div class="col-md-6 col-sm-6">
                     <div class="panel panel-material-indigo">
-			{% if photo %}
+			{% if summoner.photo %}
                         <img class="img-responsive img-rounded" src="https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-xfp1/v/t1.0-9/1476648_863664923655368_9153354075974269710_n.jpg?oh=c56befd749ab1335169d05cdf3d6529f&oe=55425FB2&__gda__=1428725801_9ed95c7f7deb1dbfca5e51b001c4a124">
 			{% else %}
 			 <img class="img-responsive img-rounded" src="http://fc09.deviantart.net/fs70/f/2013/319/5/0/prestigious_leblanc_by_fazie69-d6ubczk.png">
@@ -74,7 +74,7 @@
                     </div>
                     <p class="lead">今天在峽谷拯救了 {{ today_games * 4 }} 位銅學</p>
                     <p class="lead">Yoooo, Carry 了 {{ today_games }} 場！</p>
-                    <blockquote><p>{% if summoner_saying %}天下皆雷，我獨凱瑞。{{ summoner_saying }}{% endif %}</p><small><cite title="Source Title">{% if summoner_nickname %}廢文哥 {{ summoner_nickname }}{% endif %}</cite></small></blockquote>
+                    <blockquote><p>{% if summoner.saying %}{{ summoner.saying }}{% endif %}</p><small><cite title="Source Title">{% if summoner.nickname %}{{ summoner.nickname }}{% endif %}</cite></small></blockquote>
                     <div class="btn-group">
                         <a href="javascript:void(0)" class="btn btn-success"><i class="mdi-action-thumb-up"></i> 啊不就好棒棒</a>
                         <a href="javascript:void(0)" class="btn btn-warning"><i class="mdi-action-thumb-down"></i> 不是個好現象</a>
